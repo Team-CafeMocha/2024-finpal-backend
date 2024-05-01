@@ -1,0 +1,12 @@
+### POST Request (Create User)
+POST http://localhost:8080/auth/createUser
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "test@email.com",
+  "password": "qwerty1234*"
+}
+###
+
+
