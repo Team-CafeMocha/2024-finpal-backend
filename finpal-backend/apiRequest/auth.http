@@ -9,4 +9,7 @@ Content-Type: application/json
 }
 ###
 
+### GET Request (Get User)
+GET http://localhost:8080/auth/getUser?uid=uFMguV1L5LWjecJ8oA1xSye6b742
 
+###
