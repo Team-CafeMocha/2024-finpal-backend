@@ -38,3 +38,6 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+### Firebase Service Key ###
+/src/main/resources/serviceAccountKey.json
