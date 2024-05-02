@@ -5,16 +5,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserRecord
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/auth")
 class AuthController(private val firebaseAuth: FirebaseAuth) {
-    @PostMapping("/createUser")
+    @PostMapping("/signUp")
     fun createUser(@RequestBody userDetails: CreateUserRequest): UserRecord {
         val request = UserRecord.CreateRequest()
             .setEmail(userDetails.email ?: throw IllegalArgumentException("Email is required"))
@@ -24,7 +20,12 @@ class AuthController(private val firebaseAuth: FirebaseAuth) {
     }
 
     @GetMapping("/getUser")
-    fun getUser(@RequestBody userId: String): UserRecord {
-        return firebaseAuth.getUser(userId)
+    fun getUser(@RequestParam("uid") userId: String): ResponseEntity<Any> {
+        return try {
+            val userRecord: UserRecord = firebaseAuth.getUser(userId)
+            ResponseEntity.ok(userRecord)
+        } catch (e: Exception) {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving user: ${e.message}")
+        }
     }
 }
